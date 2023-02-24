@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Middleware Access in Group Of Routes
+
+Route::group(['middleware : age'], function () { 
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::get('/users', [UserController::class, 'index'])->name('user.index')->middleware('age');
 });
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+// Route::get('/users', [UserController::class, 'index'])->name('user.index')->middleware('age'); // Middleware Access In Single Route
